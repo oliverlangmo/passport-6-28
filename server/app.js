@@ -1,9 +1,9 @@
 var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
-
 var app = express();
 
+app.use(bodyParser.urlencoded({extended: true}));
 //router requirement
 var index = require('../routes/index');
 var register = require('../routes/register');
