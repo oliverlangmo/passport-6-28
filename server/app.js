@@ -2,6 +2,9 @@ var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
 var app = express();
+var passport = require('../strategies/user-local.js');
+
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 //router requirement
