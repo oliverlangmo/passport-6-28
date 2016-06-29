@@ -2,6 +2,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var connection = require('../modules/connection');
 var pg = require('pg');
+var encryptLib = require('../modules/encryption');
 
 passport.serializeUser(function(user, done){
 done(null, user.id);
@@ -47,9 +48,10 @@ passport.use('local', new LocalStrategy(
          }else{
            console.log('result.rows', result.rows);
           if(result.rows.length >= 1){
+
              var passwordDB = result.rows[0].password;
 
-             if(password === passwordDB){
+             if(encryptLib.comparePassword(password,passwordDB)){
                console.log('password matches');
                return passDone(null, result.rows[0]);
              }

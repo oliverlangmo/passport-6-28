@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var pg = require('pg');
+var encryptLib = require('../modules/encryption');
 var connection = require('../modules/connection');
 
 router.get('/', function(req,res){
@@ -13,8 +14,15 @@ console.log('username:', req.body.username);
 console.log('password:', req.body.password);
 
 pg.connect(connection, function(err, client, done){
+
+  var userToSave = {
+      username: req.body.username,
+      password: encryptLib.encryptPassword(req.body.password)
+    };
+
+
 client.query("INSERT into user_log_ins (username, password) VALUES ($1, $2) RETURNING id",
-  [req.body.username, req.body.password],
+  [userToSave.username, userToSave.password],
    function(err, result){
      done();
 
@@ -23,7 +31,7 @@ client.query("INSERT into user_log_ins (username, password) VALUES ($1, $2) RETU
        res.sendStatus(500);
      }else{
        console.log(result);
-       console.log('success', results.rows[0].id);
+       console.log('success', result.rows[0].id);
        res.redirect('/');
      }
    });

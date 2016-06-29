@@ -6,7 +6,9 @@ var publicAPI={
     var salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
     return bcrypt.hashSync(password, salt);
   },
-  comparePassword: function(){
-
-  }
+  comparePassword: function(candidatePassword, storedPassword){
+    console.log('comparing password');
+    return bcrypt.compareSync(candidatePassword, storedPassword);
+ }
 };
+module.exports = publicAPI;
