@@ -9,8 +9,8 @@ res.sendFile(path.resolve('public/views/index.html'));
 
 router.post('/',passport.authenticate('local',
 {
-  successRedirect: 'views/users.html',
-  failureRedirect: 'views/failure.html'
-}
-));
+  successRedirect: '/views/users.html',
+  failureRedirect: '/views/failure.html'
+})
+);
 module.exports = router;
